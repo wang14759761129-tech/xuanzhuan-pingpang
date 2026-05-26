@@ -1,232 +1,171 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>旋转乒乓 - 乒乓球装备商城</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>鏃嬭浆涔掍箵 Pro - 涓撲笟涔掍箵瑁呭鍟嗗煄</title>
 <style>
-:root{--bg:#0f0f15;--card:#1a1a25;--bor:#2a2a3a;--t:#e0e0e8;--t2:#9090a0;--gc:#d4a853;--gl:linear-gradient(135deg,#d4a853,#e8c97a)}
+:root{--bg:#08080f;--card:#101018;--card2:#181828;--bor:#202038;--t:#e8e8f4;--t2:#8888a8;--t3:#555570;--gc:#d4a853;--gl:linear-gradient(135deg,#d4a853,#f0d878);--rd:#f85149;--gr:#3fb950;--ac:#58a6ff;--ra:12px;--sh:0 4px 24px rgba(0,0,0,.4)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--t);font:15px/1.6 "Microsoft YaHei","PingFang SC",sans-serif}
-.bar{position:sticky;top:0;z-index:100;background:#151520;border-bottom:1px solid var(--bor);display:flex;align-items:center;padding:10px 16px;gap:10px}
-.bar .logo{font-size:20px;font-weight:700;background:var(--gl);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
-.bar input{flex:1;max-width:400px;padding:8px 14px;border-radius:20px;border:1px solid var(--bor);background:#1e1e30;color:var(--t);font-size:14px;outline:none}
-.bar input:focus{border-color:var(--gc)}
-.bar .cart-btn{background:none;border:1px solid var(--bor);color:var(--t);padding:8px 14px;border-radius:20px;cursor:pointer;font-size:14px}
-.bar .cart-btn:hover{border-color:var(--gc)}
-.cats{display:flex;gap:6px;padding:12px 16px;flex-wrap:wrap;background:#12121e;border-bottom:1px solid var(--bor);position:sticky;top:52px;z-index:99}
-.cats span{padding:5px 14px;border-radius:14px;font-size:13px;cursor:pointer;background:#1a1a28;color:var(--t2);border:1px solid transparent;transition:.15s}
-.cats span:hover,.cats span.on{color:var(--gc);border-color:var(--gc);background:rgba(212,168,83,.08)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:16px}
-.card{border:1px solid var(--bor);border-radius:10px;overflow:hidden;background:var(--card);transition:.2s;cursor:pointer}
-.card:hover{transform:translateY(-2px);border-color:var(--gc);box-shadow:0 4px 16px rgba(0,0,0,.3)}
-.card .img{height:150px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a1a28,#22223a);position:relative}
-.card .img .tag{position:absolute;top:8px;left:8px;background:var(--gl);color:#000;font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600}
-.card .bd{padding:12px}
-.card h3{font-size:15px;margin-bottom:4px}
-.card .desc{font-size:12px;color:var(--t2);margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card .ft{display:flex;justify-content:space-between;align-items:center}
-.card .price{font-size:18px;font-weight:700;color:var(--gc)}
-.card .price s{font-size:12px;color:#666;margin-left:6px}
-.card .stock{font-size:11px;color:var(--t2)}
-.card .add{background:var(--gl);color:#000;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600}
-.card .add:hover{opacity:.9}
-.empty{text-align:center;padding:60px;color:var(--t2)}
-.cart-panel{position:fixed;top:0;right:0;width:380px;max-width:90vw;height:100vh;background:#151520;border-left:1px solid var(--bor);z-index:200;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}
+body{background:var(--bg);color:var(--t);font:14px/1.6 "Microsoft YaHei","PingFang SC",sans-serif;min-height:100vh;padding-bottom:70px}
+.hdr{position:sticky;top:0;z-index:100;background:rgba(16,16,24,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bor);display:flex;align-items:center;padding:0 20px;height:56px;gap:16px}
+.hdr .logo{font-size:18px;font-weight:800;background:var(--gl);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;letter-spacing:-.5px}
+.hdr .nav{display:flex;gap:4px;margin-left:auto}
+.hdr .nav a{padding:8px 14px;border-radius:8px;color:var(--t2);text-decoration:none;font-size:13px;cursor:pointer;transition:.15s}
+.hdr .nav a:hover,.hdr .nav a.on{color:var(--gc);background:rgba(212,168,83,.08)}
+.hdr .acts{display:flex;gap:8px;align-items:center}
+.hdr .abtn{background:none;border:1px solid var(--bor);color:var(--t2);padding:7px 12px;border-radius:8px;cursor:pointer;font-size:12px;transition:.15s}
+.hdr .abtn:hover{border-color:var(--gc);color:var(--gc)}
+.hdr .abtn .cnt{background:var(--rd);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px}
+.main{padding:24px;max-width:1200px;margin:0 auto}
+.hero{position:relative;background:linear-gradient(135deg,#1a1a30,#0d0d20);border:1px solid var(--bor);border-radius:var(--ra);padding:48px 32px;margin-bottom:24px;overflow:hidden}
+.hero::before{content:"";position:absolute;top:0;right:0;width:300px;height:300px;background:radial-gradient(circle,rgba(212,168,83,.15),transparent 70%);border-radius:50%}
+.hero h1{font-size:32px;font-weight:800;background:var(--gl);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;position:relative}
+.hero p{color:var(--t2);font-size:15px;max-width:500px;position:relative}
+.hero .btns{margin-top:20px;display:flex;gap:10px;position:relative}
+.hero .btns button{padding:10px 22px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-family:inherit;font-weight:600;transition:.15s}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--bor);border-radius:var(--ra);padding:20px}
+.stat .sv{font-size:30px;font-weight:700}.stat .sl{font-size:12px;color:var(--t2);margin-top:4px}
+.sec{margin-bottom:28px}.sec h2{font-size:18px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.pcard{background:var(--card);border:1px solid var(--bor);border-radius:var(--ra);overflow:hidden;transition:.2s;cursor:pointer}
+.pcard:hover{transform:translateY(-2px);border-color:var(--gc);box-shadow:var(--sh)}
+.pcard .pimg{height:160px;display:flex;align-items:center;justify-content:center;font-size:52px;background:linear-gradient(135deg,var(--card2),#1e1e30);position:relative}
+.pcard .pimg img{width:100%;height:100%;object-fit:cover}
+.pcard .pimg .ptag{position:absolute;top:8px;left:8px;background:var(--gl);color:#000;font-size:10px;padding:3px 8px;border-radius:4px;font-weight:600}
+.pcard .pbd{padding:14px}.pcard h3{font-size:15px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .pdsc{font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcard .pft{display:flex;justify-content:space-between;align-items:center}
+.pcard .ppr{font-size:18px;font-weight:700;color:var(--gc)}
+.pcard .ppr s{font-size:12px;color:var(--t3);margin-left:6px}
+.pcard .padd{background:var(--gl);color:#000;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th,.tbl td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--bor)}
+.tbl th{color:var(--t2);font-weight:500;font-size:11px;text-transform:uppercase;background:var(--card2);position:sticky;top:0}
+.tbl tr:hover td{background:rgba(255,255,255,.015)}
+.tbl-container{max-height:500px;overflow-y:auto;border:1px solid var(--bor);border-radius:var(--ra);background:var(--card)}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-ok{background:rgba(63,185,80,.12);color:var(--gr)}
+.badge-pd{background:rgba(212,168,83,.12);color:var(--gc)}
+.badge-sp{background:rgba(88,166,255,.12);color:var(--ac)}
+.badge-xx{background:rgba(248,81,73,.12);color:var(--rd)}
+.btn{padding:9px 18px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-family:inherit;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.btn-gold{background:var(--gl);color:#000}.btn-gold:hover{opacity:.9}
+.btn-out{background:none;border:1px solid var(--bor);color:var(--t)}.btn-out:hover{border-color:var(--gc)}
+.btn-red{background:none;border:1px solid #3a1a1a;color:var(--rd)}.btn-red:hover{background:rgba(248,81,73,.08)}
+.btn-blue{background:var(--ac);color:#fff}.btn-sm{padding:5px 10px;font-size:11px}
+.f-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
+.f-row label{width:90px;font-size:13px;color:var(--t2);flex-shrink:0;text-align:right}
+.f-row input,.f-row select,.f-row textarea{flex:1;padding:9px 12px;border-radius:8px;border:1px solid var(--bor);background:var(--card2);color:var(--t);font-size:13px;font-family:inherit;outline:none}
+.f-row input:focus,.f-row select:focus,.f-row textarea:focus{border-color:var(--gc)}
+.f-row textarea{min-height:70px;resize:vertical}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border:1px solid var(--bor);border-radius:var(--ra);padding:24px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--sh)}
+.modal h2{font-size:18px;margin-bottom:16px;background:var(--gl);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.modal .m-acts{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.cart-panel{position:fixed;top:0;right:0;width:400px;max-width:95vw;height:100vh;background:#101018;border-left:1px solid var(--bor);z-index:250;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}
 .cart-panel.open{transform:translateX(0)}
 .cart-panel .ch{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid var(--bor)}
-.cart-panel .ch h3{font-size:16px}
-.cart-panel .ch button{background:none;border:none;color:var(--t);font-size:20px;cursor:pointer}
-.cart-items{flex:1;overflow-y:auto;padding:10px}
-.cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--bor);font-size:13px}
-.cart-item .qty{display:flex;gap:6px;align-items:center}
-.cart-item .qty button{background:var(--bor);border:none;color:var(--t);width:24px;height:24px;border-radius:4px;cursor:pointer}
-.cart-sum{text-align:right;padding:16px;border-top:1px solid var(--bor);font-size:16px}
-.cart-sum button{margin-top:10px;background:var(--gl);color:#000;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;font-size:15px}
-.toast{position:fixed;top:16px;right:16px;background:#3fb950;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;z-index:999;animation:fadeIn .3s}
+.cart-items{flex:1;overflow-y:auto;padding:8px}
+.cart-item{display:flex;gap:8px;align-items:center;padding:10px;border-bottom:1px solid var(--bor);font-size:13px}
+.cart-sum{padding:16px;border-top:1px solid var(--bor);text-align:right;font-size:16px}
+.cart-sum .total{font-size:22px;font-weight:700;color:var(--gc)}
+.cart-sum button{margin-top:8px;width:100%;padding:12px}
+.ship-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.ship-card{border:2px solid var(--bor);border-radius:var(--ra);padding:16px;cursor:pointer;transition:.15s;text-align:center}
+.ship-card:hover,.ship-card.sel{border-color:var(--gc);background:rgba(212,168,83,.04)}
+.ship-card .sc-name{font-weight:700;font-size:15px;margin-bottom:4px}
+.ship-card .sc-info{font-size:12px;color:var(--t2)}
+.ship-card .sc-price{font-size:14px;color:var(--gc);font-weight:600;margin-top:4px}
+.img-up{width:100%;height:160px;border:2px dashed var(--bor);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;overflow:hidden;position:relative}
+.img-up:hover{border-color:var(--gc)}
+.img-up img{width:100%;height:100%;object-fit:cover}
+.img-up .ph{color:var(--t3);font-size:40px}
+.toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:8px;font-size:13px;z-index:999;animation:fadeIn .3s;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.toast-ok{background:var(--gr);color:#fff}
+.toast-err{background:var(--rd);color:#fff}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));padding:10px}.card .img{height:120px;font-size:36px}}
+@media(max-width:768px){.hdr{padding:0 12px;gap:8px}.hdr .nav{display:none}.hero{padding:32px 20px}.hero h1{font-size:24px}.pgrid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}.main{padding:16px}.stats{grid-template-columns:repeat(2,1fr)}}
+@media print{body{background:#fff!important;color:#000!important}.hdr,.modal-overlay,.cart-panel{display:none!important}}
 </style>
 </head>
 <body>
-<div class="bar">
-<span class="logo">🏓 旋转乒乓</span>
-<input id="search" placeholder="🔍 搜索商品..." oninput="filter()">
-<button class="cart-btn" onclick="toggleCart()">🛒 <span id="cc">0</span></button>
-</div>
-<div class="cats" id="cats"></div>
-<div class="grid" id="products"></div>
-<div class="empty" id="empty"></div>
+<div class="hdr"><span class="logo" onclick="nav('shop')" id="storeTitle">馃彄 鏃嬭浆涔掍箵 Pro</span><div class="nav" id="topNav"><a data-p="shop" class="on" onclick="nav('shop')">棣栭〉</a><a data-p="products" onclick="nav('products')">鍟嗗搧</a><a data-p="orders" onclick="nav('orders')">璁㈠崟</a><a data-p="logistics" onclick="nav('logistics')">鐗╂祦</a><a data-p="customers" onclick="nav('customers')">瀹㈡埛</a><a data-p="admin" onclick="nav('admin')">绠＄悊</a></div><div class="acts"><button class="abtn" id="langBtn" onclick="switchLang()">EN</button><select class="abtn" id="curSel" onchange="switchCur()"><option value="CNY">楼 CNY</option><option value="USD">$ USD</option></select><button class="abtn" onclick="toggleCart()">馃洅<span class="cnt" id="cc">0</span></button></div></div>
+<div class="main" id="content"></div>
+<div class="cart-panel" id="cartPanel"><div class="ch"><h3>馃洅 璐墿杞?/h3><button style="background:none;border:none;color:var(--t);font-size:20px;cursor:pointer" onclick="toggleCart()">鉁?/button></div><div class="cart-items" id="cartItems"></div><div class="cart-sum" id="cartSum"></div></div>
+<div class="modal-overlay" id="modal"><div class="modal" id="modalBody"></div></div>
+<div class="modal-overlay" id="imgModal"><div class="modal"><h2>涓婁紶鍥剧墖</h2><input type="file" accept="image/*" id="imgInput" style="display:none" onchange="handleImg(event)"><div class="img-up" id="imgPrev" onclick="document.getElementById('imgInput').click()"><span class="ph">馃摲 鐐瑰嚮涓婁紶</span></div><div style="margin-top:10px;font-size:12px;color:var(--t3)">鎴栬緭鍏RL锛?/div><input id="imgUrl" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--bor);background:var(--card2);color:var(--t);margin-top:6px" placeholder="https://..."><div class="m-acts" style="margin-top:12px"><button class="btn btn-out" onclick="closeImgModal()">鍙栨秷</button><button class="btn btn-gold" onclick="confirmImg()">纭畾</button></div></div></div>
+<script>// === DATA ===
+var P=[{id:1,n:"涓撲笟纰崇氦缁寸悆鎷?,c:"搴曟澘",p:299,o:399,s:50,i:"馃彄",iu:"",d:"5鏈?纰崇粨鏋勶紝閫熷害蹇棆杞己锛岄€傚悎杩涙敾鍨嬫墦娉晐5+2 carbon blade, fast speed & strong spin",sp:"閲嶉噺:85g卤3g | 灞傛暟:5+2 | 鎷嶆焺:FL",b:"铦磋澏",f:!0,tags:"pro,attack"},{id:2,n:"璁粌绾х函鏈ㄧ悆鎷?,c:"搴曟澘",p:129,o:169,s:80,i:"馃徃",iu:"",d:"7灞傜函鏈紝鎵嬫劅鏌斿拰鎺х悆濂斤紝閫傚悎鍒濆鑰厊7-ply all-wood, soft touch & control",sp:"閲嶉噺:80g卤3g | 灞傛暟:7 | 鎷嶆焺:CS",b:"鏂拏鍗?,f:!1,tags:"train,beginner"},{id:3,n:"涓夋槦姣旇禌鐢ㄧ悆 10鍙",c:"涔掍箵鐞?,p:59,o:69,s:200,i:"馃彄",iu:"",d:"ITTF璁よ瘉姣旇禌鐢ㄧ悆锛屽脊鎬у潎鍖€鑰愭墦|ITTF approved 3-star balls",sp:"鏄熺骇:涓夋槦 | 鏁伴噺:10鍙?| 棰滆壊:鐧?,b:"鍙岄奔",f:!0,tags:"match,ball"},{id:4,n:"涓€鏄熻缁冪悆 100鍙",c:"涔掍箵鐞?,p:89,o:99,s:150,i:"鈿?,iu:"",d:"楂樻€т环姣旇缁冪悆锛屽脊璺崇ǔ瀹殀Budget training balls, stable bounce",sp:"鏄熺骇:涓€鏄?| 鏁伴噺:100鍙?,b:"绾㈠弻鍠?,f:!1,tags:"train,ball"},{id:5,n:"闃叉粦涔掍箵鐞冮瀷",c:"鐞冮瀷",p:189,o:239,s:40,i:"馃憻",iu:"",d:"閫忔皵缃戦潰+姗¤兌澶у簳锛屾姄鍦板姏寮簗Breathable mesh + rubber sole",sp:"灏虹爜:36-44 | 棰滆壊:榛?鐧?,b:"鏉庡畞",f:!1,tags:"shoe,pro"},{id:6,n:"涓撲笟鐞冩媿濂?,c:"閰嶄欢",p:49,o:59,s:100,i:"馃帗",iu:"",d:"鍔犲帤闃叉姢锛屽彲鏀?鏀悆鎷?3棰楃悆|Holds 2 paddles + 3 balls",sp:"瀹归噺:2鎷?鐞?| 鏉愯川:鐗涙触甯?,b:"鏃嬭浆涔掍箵",f:!1,tags:"case"},{id:7,n:"杩愬姩閫熷共姣涘肪",c:"閰嶄欢",p:39,o:49,s:120,i:"馃В",iu:"",d:"鍐锋劅闈㈡枡蹇€熷惛姹楋紝杩愬姩蹇呭|Cool-feel quick-dry towel",sp:"灏哄:80x40cm",b:"鏃嬭浆涔掍箵",f:!0,tags:"towel"},{id:8,n:"璁粌鍣ㄥ瑁?,c:"閰嶄欢",p:128,o:168,s:30,i:"馃幘",iu:"",d:"鍙戠悆鏈?闆嗙悆缃戝瑁咃紝楂樻晥璁粌|Robot + net combo",sp:"鍚彂鐞冩満+闆嗙悆缃?50鐞?,b:"鏃嬭浆涔掍箵",f:!1,tags:"train,robot"},{id:9,n:"闃叉粦鎵嬫焺鑳跺甫 3鍗?,c:"閰嶄欢",p:25,o:35,s:200,i:"馃巰",iu:"",d:"鍚告睏闃叉粦锛屾彙鎰熻垝閫倈Anti-slip grip tape, 3 rolls",sp:"鏁伴噺:3鍗?,b:"鏃嬭浆涔掍箵",f:!1,tags:"tape"},{id:10,n:"鎶樺彔瑁佸垽妞?,c:"鍣ㄦ潗",p:258,o:298,s:20,i:"馃獞",iu:"",d:"杞讳究鎶樺彔锛岄珮搴﹀彲璋億Portable umpire chair",sp:"楂樺害:鍙皟 | 鎵块噸:150kg",b:"鏃嬭浆涔掍箵",f:!1,tags:"chair"}];
+var O=[],C=[],CS=[],page="shop",cat="all",SET={name:"鏃嬭浆涔掍箵 Pro",phone:"",wechat:"",addr:"",logo:"",email:""};
+function gK(k,d){try{var v=localStorage.getItem("pp_"+k);return v?JSON.parse(v):d}catch(e){return d}}
+function sK(k,v){try{localStorage.setItem("pp_"+k,JSON.stringify(v))}catch(e){}}
+function save(k){sK(k,k==="p"?P:k==="o"?O:k==="c"?C:k==="cs"?CS:SET)}
+var lang=gK("lang","zh"),cur=gK("cur","CNY"),R={CNY:1,USD:0.14,EUR:0.13};
+var T={zh:{shop:"棣栭〉",products:"鍟嗗搧",orders:"璁㈠崟",logistics:"鐗╂祦",customers:"瀹㈡埛",admin:"绠＄悊",revenue:"鎬昏惀鏀?,pending:"寰呭鐞?,active:"鍦ㄥ敭",warn:"棰勮",addProd:"娣诲姞鍟嗗搧",export:"瀵煎嚭鏁版嵁",import:"瀵煎叆澶囦唤",settings:"搴楅摵璁剧疆",ordersList:"璁㈠崟鍒楄〃",search:"鎼滅储鍟嗗搧...",cart:"璐墿杞?,cartEmpty:"璐墿杞︿负绌?,total:"鍚堣",checkout:"鎻愪氦璁㈠崟",orderOK:"涓嬪崟鎴愬姛锛?,print:"馃枿锔?鎵撳嵃",save:"淇濆瓨",cancel:"鍙栨秷",del:"鍒犻櫎",edit:"缂栬緫",detail:"璇︽儏",close:"鍏抽棴",recommend:"鎺ㄨ崘",only:"浠呭墿",pcs:"浠?,ins:"搴撳瓨",brand:"鍝佺墝",ctg:"鍒嗙被",all:"鍏ㄩ儴",country:"鍥藉",addr:"鍦板潃",name:"濮撳悕",phone:"鐢佃瘽",note:"澶囨敞",email:"閭",proDesc:"涓撲笟涔掍箵鐞冭澶囦竴绔欏紡鍟嗗煄",browse:"娴忚鍟嗗搧",dashboard:"鍟嗗绠＄悊",noOrders:"鏆傛棤璁㈠崟",noCustomers:"鏆傛棤瀹㈡埛",fillInfo:"璇峰～鍐欏鍚嶅拰鐢佃瘽",lowStock:"搴撳瓨涓嶈冻!",keyMetrics:"鍏抽敭鎸囨爣",recentOrders:"鏈€杩戣鍗?,inventory:"搴撳瓨绠＄悊",domestic:"鍥藉唴鐗╂祦",intl:"鍥介檯鐗╂祦",tracking:"杩借釜鍗曞彿",courier:"蹇€掑叕鍙?,shipping:"閰嶉€佹柟寮?,weight:"閲嶉噺(kg)",shipCost:"杩愯垂",estDelivery:"棰勮閫佽揪",noResult:"鏈壘鍒板晢鍝?,added:"宸叉坊鍔?,updated:"宸叉洿鏂?,deleted:"宸插垹闄?,confirmDelete:"纭鍒犻櫎姝ゅ晢鍝侊紵",editProduct:"缂栬緫鍟嗗搧"},en:{shop:"Home",products:"Products",orders:"Orders",logistics:"Logistics",customers:"Customers",admin:"Admin",revenue:"Revenue",pending:"Pending",active:"Active",warn:"Alerts",addProd:"Add",export:"Export",import:"Import",settings:"Settings",ordersList:"Orders",search:"Search products...",cart:"Cart",cartEmpty:"Cart empty",total:"Total",checkout:"Checkout",orderOK:"Order placed!",print:"Print",save:"Save",cancel:"Cancel",del:"Del",edit:"Edit",detail:"Details",close:"Close",recommend:"Featured",only:"left",pcs:"pcs",ins:"Stock",brand:"Brand",ctg:"Category",all:"All",country:"Country",addr:"Address",name:"Name",phone:"Phone",note:"Note",email:"Email",proDesc:"Professional TT Equipment",browse:"Browse",dashboard:"Dashboard",noOrders:"No orders",noCustomers:"No customers",fillInfo:"Please fill name & phone",lowStock:"Insufficient stock!",keyMetrics:"Key Metrics",recentOrders:"Recent Orders",inventory:"Inventory",domestic:"Domestic",intl:"International",tracking:"Tracking #",courier:"Courier",shipping:"Shipping",weight:"Weight(kg)",shipCost:"Shipping",estDelivery:"Est. Delivery",noResult:"No results found",added:"Added",updated:"Updated",deleted:"Deleted",confirmDelete:"Delete this product?",editProduct:"Edit Product"}};
+function t(k){return (T[lang]&&T[lang][k])||(T.zh&&T.zh[k])||k}
+function switchLang(){lang=lang==="zh"?"en":"zh";sK("lang",lang);document.getElementById("langBtn").textContent=lang==="zh"?"EN":"涓枃";nav(page)}
+function switchCur(){cur=document.getElementById("curSel").value;sK("cur",cur);nav(page)}
+function fp(n){var v=n*R[cur];return(cur==="CNY"?"楼":"$")+v.toFixed(2)}
+function cp(n){return "楼"+n.toLocaleString()}
+function fd(d){var dt=new Date(d);return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0")+" "+String(dt.getHours()).padStart(2,"0")+":"+String(dt.getMinutes()).padStart(2,"0")}
+function init(){P=gK("p",P);O=gK("o",O);C=gK("c",C);CS=gK("cs",CS);SET=gK("set",SET);document.getElementById("storeTitle").textContent="馃彄 "+SET.name;document.getElementById("langBtn").textContent=lang==="zh"?"EN":"涓枃";document.getElementById("curSel").value=cur;nav("shop");updateCC();document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeModal()});document.getElementById("imgModal").addEventListener("click",function(e){if(e.target===this)closeImgModal()});}
+function updateCC(){document.getElementById("cc").textContent=C.reduce(function(s,i){return s+i.q},0)}
+function nav(p){page=p;cat="all";document.querySelectorAll("#topNav a").forEach(function(a){a.classList.toggle("on",a.dataset.p===p)});var d=document.getElementById("content");switch(p){case"shop":d.innerHTML=rShop();break;case"products":d.innerHTML=rProducts();break;case"orders":d.innerHTML=rOrders();break;case"logistics":d.innerHTML=rLogistics();break;case"customers":d.innerHTML=rCustomers();break;case"admin":d.innerHTML=rAdmin();break}}
+function rShop(){var h='<div class="hero"><h1>'+SET.name+'</h1><p>'+t("proDesc")+'</p><div class="btns"><button class="btn btn-gold" onclick="nav(\'products\')">'+t("browse")+'</button><button class="btn btn-out" onclick="nav(\'admin\')">'+t("dashboard")+'</button></div></div>';var feats=P.filter(function(p){return p.f});h+='<div class="sec"><h2>馃敟 '+t("recommend")+'</h2><div class="pgrid">';feats.forEach(function(p){h+=pCard(p)});h+='</div></div>';h+='<div class="sec"><h2>馃摝 '+t("products")+'</h2><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">';var cats=["all"];P.forEach(function(p){if(cats.indexOf(p.c)===-1)cats.push(p.c)});cats.forEach(function(c){h+='<span style="padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;background:'+(cat===c?'var(--gl)':'var(--card2)')+';color:'+(cat===c?'#000':'var(--t2)')+'" onclick="cat=\''+c+'\';nav(\'shop\')">'+(c==="all"?t("all"):c)+'</span>'});h+='</div><input style="width:100%;padding:10px 16px;border-radius:20px;border:1px solid var(--bor);background:var(--card2);color:var(--t);font-size:14px;margin-bottom:10px" placeholder="'+t("search")+'" id="searchInput" oninput="nav(\'shop\')"><div class="pgrid">';var list=getList();list.forEach(function(p){h+=pCard(p)});h+='</div></div>';if(!list.length)h+='<div style="text-align:center;padding:40px;color:var(--t3)">馃槙 '+t("noResult")+'</div>';return h}
+function pCard(p){var tag=p.f?'<div class="ptag">'+t("recommend")+'</div>':'';var low=p.s<30&&p.s>0?'<div class="ptag" style="background:var(--rd);color:#fff">'+t("only")+p.s+t("pcs")+'</div>':'';var img=p.iu?'<img src="'+p.iu+'" alt="'+p.n+'">':p.i;return '<div class="pcard" onclick="showDetail('+p.id+')"><div class="pimg">'+img+tag+low+'</div><div class="pbd"><h3>'+p.n+'</h3><div class="pdsc">'+p.d.split("|")[0]+'</div><div class="pft"><div><span class="ppr">'+fp(p.p)+'</span><s>'+fp(p.o)+'</s></div><button class="padd" onclick="event.stopPropagation();addCart('+p.id+')">+</button></div></div></div>'}
+function getList(){var l=cat==="all"?P:P.filter(function(p){return p.c===cat});var q=(document.getElementById("searchInput")||{}).value;if(q){q=q.trim().toLowerCase();l=l.filter(function(p){return p.n.toLowerCase().indexOf(q)>-1||p.tags.toLowerCase().indexOf(q)>-1})}return l}
+function showDetail(id){var p=P.find(function(x){return x.id===id});if(!p)return;var img=p.iu?'<img src="'+p.iu+'" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px">':'<span style="font-size:72px">'+p.i+'</span>';var h='<h2>'+p.n+'</h2><div style="text-align:center;padding:20px;background:linear-gradient(135deg,var(--card2),#1e1e30);border-radius:8px;margin-bottom:12px">'+img+'</div>';h+='<p style="font-size:13px;color:var(--t2);margin-bottom:6px">'+p.d.split("|")[0]+'</p><p style="font-size:12px;color:var(--t3)">'+p.sp+'</p>';h+='<p style="font-size:24px;font-weight:700;color:var(--gc);margin:8px 0">'+fp(p.p)+' <s style="font-size:14px;color:var(--t3)">'+fp(p.o)+'</s></p>';h+='<p style="font-size:12px;color:var(--t2)">'+t("ins")+':'+p.s+' | '+t("brand")+':'+p.b+' | '+t("ctg")+':'+p.c+'</p>';h+='<div class="m-acts"><button class="btn btn-out" onclick="closeModal()">'+t("close")+'</button><button class="btn btn-gold" onclick="addCart('+p.id+');closeModal()">馃洅 '+t("checkout")+'</button></div>';openModal(h)}
+function rProducts(){var h='<div class="sec"><h2>馃摝 '+t("products")+'</h2><button class="btn btn-gold" onclick="openProdForm()">+ '+t("addProd")+'</button>';h+='<div class="tbl-container" style="margin-top:12px"><table class="tbl"><tr><th>ID</th><th>'+t("name")+'</th><th>'+t("ctg")+'</th><th>'+t("ins")+'</th><th>'+t("price")+'</th><th></th></tr>';P.forEach(function(p){h+='<tr><td>'+p.id+'</td><td>'+p.n+'</td><td>'+p.c+'</td><td style="color:'+(p.s<30&&p.s>0?"var(--rd)":"")+'">'+p.s+'</td><td>'+fp(p.p)+'</td><td><button class="btn btn-sm btn-out" onclick="openProdForm('+p.id+')">'+t("edit")+'</button> <button class="btn btn-sm btn-red" onclick="delProd('+p.id+')">'+t("del")+'</button></td></tr>'});h+='</table></div></div>';return h}
+function openProdForm(id){var p=id?P.find(function(x){return x.id===id}):null;var h='<h2>'+(p?t("editProduct"):t("addProd"))+'</h2>';h+='<div class="f-row"><label>'+t("name")+'</label><input id="pfN" value="'+(p?p.n:"")+'"></div>';h+='<div class="f-row"><label>'+t("ctg")+'</label><select id="pfC"><option value="搴曟澘"'+(p&&p.c==="搴曟澘"?' selected':'')+'>搴曟澘</option><option value="涔掍箵鐞?'+(p&&p.c==="涔掍箵鐞??' selected':'')+'>涔掍箵鐞?/option><option value="鐞冮瀷"'+(p&&p.c==="鐞冮瀷"?' selected':'')+'>鐞冮瀷</option><option value="閰嶄欢"'+(p&&p.c==="閰嶄欢"?' selected':'')+'>閰嶄欢</option><option value="鍣ㄦ潗"'+(p&&p.c==="鍣ㄦ潗"?' selected':'')+'>鍣ㄦ潗</option></select></div>';h+='<div class="f-row"><label>'+t("brand")+'</label><input id="pfB" value="'+(p?p.b:"")+'"></div>';h+='<div class="f-row"><label>'+t("price")+'</label><input id="pfP" type="number" value="'+(p?p.p:99)+'"> <input id="pfO" type="number" value="'+(p?p.o:129)+'" style="width:100px" placeholder="鍘熶环"></div>';h+='<div class="f-row"><label>'+t("ins")+'</label><input id="pfS" type="number" value="'+(p?p.s:50)+'"></div>';h+='<div class="f-row"><label>鍥剧墖</label><div class="img-up" id="pfImgPrev" style="height:120px" onclick="pickImg(\'product\')">'+(p&&p.iu?'<img src="'+p.iu+'">':(p?'<span style="font-size:36px">'+p.i+'</span>':'<span class="ph">馃摲</span>'))+'</div><input type="hidden" id="pfIu" value="'+(p&&p.iu?p.iu:"")+'"><input type="hidden" id="pfIi" value="'+(p?p.i:"馃摝")+'"></div>';h+='<div class="f-row"><label>鎻忚堪</label><textarea id="pfD">'+(p?p.d:"")+'</textarea></div>';h+='<div class="f-row"><label>瑙勬牸</label><input id="pfSp" value="'+(p?p.sp:"")+'"></div>';h+='<div class="f-row"><label>鏍囩</label><input id="pfTg" value="'+(p?p.tags:"")+'" placeholder="閫楀彿鍒嗛殧"></div>';h+='<div class="f-row"><label>'+t("recommend")+'</label><select id="pfF"><option value="1"'+(p&&p.f?' selected':'')+'>鏄?/option><option value="0"'+(p&&!p.f?' selected':'')+'>鍚?/option></select></div>';h+='<div class="m-acts"><button class="btn btn-out" onclick="closeModal()">'+t("cancel")+'</button><button class="btn btn-gold" onclick="saveProd('+(p?p.id:0)+')">'+t("save")+'</button></div>';openModal(h)}
+function saveProd(id){var n=document.getElementById("pfN").value.trim();if(!n){toast("璇疯緭鍏ュ悕绉?,"err");return}var d={n:n,c:document.getElementById("pfC").value,b:document.getElementById("pfB").value,p:parseInt(document.getElementById("pfP").value)||99,o:parseInt(document.getElementById("pfO").value)||129,s:parseInt(document.getElementById("pfS").value)||0,i:document.getElementById("pfIi").value||"馃摝",iu:document.getElementById("pfIu").value||"",d:document.getElementById("pfD").value.trim(),sp:document.getElementById("pfSp").value.trim(),tags:document.getElementById("pfTg").value.trim(),f:document.getElementById("pfF").value==="1"};if(id>0){var idx=P.findIndex(function(x){return x.id===id});if(idx>=0){d.id=id;P[idx]=d}}else{d.id=Math.max.apply(null,P.map(function(x){return x.id}).concat([0]))+1;P.push(d)}save("p");closeModal();nav("products");toast(id>0?t("updated"):t("added"))}
+function delProd(id){if(!confirm(t("confirmDelete")))return;P=P.filter(function(x){return x.id!==id});save("p");nav("products");toast(t("deleted"))}
+// === CART ===
+function addCart(id){var p=P.find(function(x){return x.id===id});if(!p)return;if(p.s<1){toast(t("lowStock"),"err");return}var item=C.find(function(x){return x.id===id});if(item){item.q++}else{C.push({id:id,q:1})}save("c");updateCC();renderCart();toast(p.n+" +1","ok")}
+function removeCart(idx){C.splice(idx,1);save("c");updateCC();renderCart()}
+function chQty(idx,d){C[idx].q+=d;if(C[idx].q<=0){C.splice(idx,1)}save("c");updateCC();renderCart()}
+function toggleCart(){var panel=document.getElementById("cartPanel");panel.classList.toggle("open");if(panel.classList.contains("open"))renderCart()}
+function renderCart(){var items=document.getElementById("cartItems"),sum=document.getElementById("cartSum");if(!items)return;if(C.length===0){items.innerHTML="<div style='text-align:center;padding:40px;color:var(--t3)'>"+t("cartEmpty")+"</div>";sum.innerHTML="";return}var h="",total=0;C.forEach(function(ci,i){var p=P.find(function(x){return x.id===ci.id});if(!p)return;var sub=ci.q*p.p;total+=sub;h+="<div class='cart-item'><span style='font-size:24px'>"+p.i+"</span><div style='flex:1'><div style='font-weight:600'>"+p.n+"</div><div style='font-size:11px;color:var(--t2)'>"+fp(p.p)+" x "+ci.q+"</div></div><div style='text-align:right'><div style='color:var(--gc);font-weight:600'>"+fp(sub)+"</div><div style='margin-top:2px'><button class='btn btn-sm btn-out' onclick='chQty("+i+",-1)'>-</button><button class='btn btn-sm btn-out' onclick='chQty("+i+",1)'>+</button><button class='btn btn-sm btn-red' onclick='removeCart("+i+")'>x</button></div></div></div>"});items.innerHTML=h;sum.innerHTML="<div>"+t("total")+": <span class='total'>"+fp(total)+"</span></div><button class='btn btn-gold' onclick='checkout()'>"+t("checkout")+"</button>"}
+// === SHIPPING ===
+var selShip="",shipCost=0;
+var SHIP={domestic:[{id:"sf",name:"椤轰赴閫熻繍",price:15,days:"1-2澶?,track:!0},{id:"yt",name:"鍦嗛€氬揩閫?,price:10,days:"2-4澶?,track:!0},{id:"zt",name:"涓€氬揩閫?,price:8,days:"3-5澶?,track:!0},{id:"yd",name:"闊佃揪蹇€?,price:10,days:"2-4澶?,track:!0},{id:"ems",name:"EMS閭斂",price:20,days:"2-5澶?,track:!0},{id:"jd",name:"浜笢鐗╂祦",price:12,days:"1-2澶?,track:!0},{id:"db",name:"寰烽偊蹇€?,price:15,days:"2-4澶?,track:!0}],international:[{id:"dhl",name:"DHL Express",price:25,days:"3-7澶?,track:!0},{id:"fedex",name:"FedEx",price:22,days:"4-8澶?,track:!0},{id:"ups",name:"UPS",price:20,days:"4-8澶?,track:!0},{id:"emsi",name:"EMS鍥介檯",price:18,days:"7-15澶?,track:!0},{id:"seaf",name:"娴疯繍",price:12,days:"20-45澶?,track:!1},{id:"aramex",name:"Aramex",price:15,days:"5-10澶?,track:!0},{id:"tnt",name:"TNT",price:21,days:"4-7澶?,track:!0}]};
+function checkout(){if(C.length===0){toast(t("cartEmpty"),"err");return}var h="<h2>馃搵 "+t("checkout")+"</h2>";h+="<div id='chkF'><h4 style='margin-bottom:8px;color:var(--gc)'>馃摑 璁㈠崟淇℃伅</h4>";h+="<div class='f-row'><label>"+t("name")+"*</label><input id='chkName' value=''></div>";h+="<div class='f-row'><label>"+t("phone")+"*</label><input id='chkPhone' value=''></div>";h+="<div class='f-row'><label>"+t("email")+"</label><input id='chkEmail' value=''></div>";h+="<div class='f-row'><label>"+t("country")+"</label><select id='chkCountry' onchange='upShipOpts()'><option value='CN'>涓浗</option><option value='US'>United States</option><option value='JP'>鏃ユ湰</option><option value='KR'>闊╁浗</option><option value='DE'>Germany</option><option value='GB'>United Kingdom</option><option value='FR'>France</option><option value='SG'>Singapore</option><option value='TH'>Thailand</option></select></div>";h+="<div class='f-row'><label>"+t("addr")+"*</label><input id='chkAddr' value=''></div>";h+="<div class='f-row'><label>"+t("note")+"</label><input id='chkNote' value=''></div>";h+="<h4 style='margin-bottom:8px;color:var(--gc);margin-top:12px'>馃殮 "+t("shipping")+"</h4>";h+="<div id='shipOpts' class='ship-grid'></div>";h+="<div id='shipCostDisplay' style='text-align:right;margin-top:8px;font-size:14px;color:var(--gc)'></div>";h+="<h4 style='margin-bottom:8px;color:var(--gc);margin-top:12px'>馃洅 璁㈠崟鏄庣粏</h4>";var itemTotal=0;C.forEach(function(ci){var p=P.find(function(x){return x.id===ci.id});if(!p)return;var sub=ci.q*p.p;itemTotal+=sub;h+="<div style='display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bor);font-size:13px'><span>"+p.n+" x"+ci.q+"</span><span>"+fp(sub)+"</span></div>"});h+="<div style='display:flex;justify-content:space-between;padding:8px 0;font-size:18px;font-weight:700'><span>"+t("total")+"</span><span id='chkTotal' style='color:var(--gc)'>"+fp(itemTotal)+"</span></div>";h+="<div class='m-acts'><button class='btn btn-out' onclick='closeModal()'>"+t("cancel")+"</button><button class='btn btn-gold' onclick='placeOrder()'>鉁?"+t("checkout")+"</button></div></div>";openModal(h);setTimeout(function(){upShipOpts()},100)}
+function upShipOpts(){var country=document.getElementById("chkCountry").value;var isDomestic=country==="CN";var list=isDomestic?SHIP.domestic:SHIP.international;var curSymbol=isDomestic?"楼":"$";var h="";selShip="";shipCost=0;list.forEach(function(s,i){if(i===0){selShip=s.id;shipCost=s.price}var checked=i===0?" class='sel'":"";h+="<div class='ship-card"+checked+"' onclick='selShipOpt(\""+s.id+"\","+s.price+",this)'><div class='sc-name'>"+s.name+"</div><div class='sc-info'>鈴?"+s.days+(s.track?" | 馃搷鍙拷韪?:"")+"</div><div class='sc-price'>"+curSymbol+s.price+"</div></div>"});document.getElementById("shipOpts").innerHTML=h;updateShipDisplay()}
+function selShipOpt(id,price,el){selShip=id;shipCost=price;document.querySelectorAll("#shipOpts .ship-card").forEach(function(c){c.classList.remove("sel")});el.classList.add("sel");updateShipDisplay()}
+function updateShipDisplay(){var country=document.getElementById("chkCountry").value;var curSymbol=country==="CN"?"楼":"$";document.getElementById("shipCostDisplay").innerHTML="<span>"+t("shipCost")+": "+curSymbol+shipCost+"</span>";var itemTotal=C.reduce(function(s,ci){var p=P.find(function(x){return x.id===ci.id});return p?s+ci.q*p.p:s},0);document.getElementById("chkTotal").textContent=fp(itemTotal+shipCost)}
+function placeOrder(){var name=document.getElementById("chkName").value.trim();var phone=document.getElementById("chkPhone").value.trim();var addr=document.getElementById("chkAddr").value.trim();if(!name||!phone||!addr){toast(t("fillInfo"),"err");return}var email=document.getElementById("chkEmail").value.trim();var country=document.getElementById("chkCountry").value;var note=document.getElementById("chkNote").value.trim();var items=C.map(function(ci){var p=P.find(function(x){return x.id===ci.id});return{id:ci.id,name:p?p.n:"",qty:ci.q,price:p?p.p:0}});var itemTotal=items.reduce(function(s,i){return s+i.qty*i.price},0);var allShips=SHIP.domestic.concat(SHIP.international);var found=allShips.find(function(s){return s.id===selShip});var shipInfo=found?{id:found.id,name:found.name,cost:shipCost,days:found.days}:null;var order={id:Date.now(),items:items,shipping:shipInfo,customer:{name:name,phone:phone,email:email,country:country,addr:addr,note:note},total:itemTotal+shipCost,status:"pending",date:new Date().toISOString(),tracking:""};O.unshift(order);C.forEach(function(ci){var p=P.find(function(x){return x.id===ci.id});if(p){p.s=Math.max(0,p.s-ci.q)}});var exist=CS.find(function(x){return x.phone===phone});if(!exist){CS.push({id:CS.length+1,name:name,phone:phone,email:email,country:country,addr:addr,orders:1,total:order.total,date:order.date});save("cs")}else{exist.orders++;exist.total+=order.total;save("cs")}C=[];save("c");save("o");save("p");updateCC();closeModal();updateCartPanel();nav("orders");toast(t("orderOK"),"ok");setTimeout(function(){showOrderDetail(order.id)},500)}
+function updateCartPanel(){var items=document.getElementById("cartItems"),sum=document.getElementById("cartSum");if(items&&sum){if(C.length===0){items.innerHTML="<div style='text-align:center;padding:40px;color:var(--t3)'>"+t("cartEmpty")+"</div>";sum.innerHTML=""}else renderCart()}}
 
-<div class="cart-panel" id="cartPanel">
-<div class="ch"><h3>🛒 购物车</h3><button onclick="toggleCart()">✕</button></div>
-<div class="cart-items" id="cartItems"><div style="text-align:center;padding:40px;color:var(--t2)">购物车为空</div></div>
-<div class="cart-sum" id="cartSum"></div>
-</div>
-
-<script>
-var products = [
-{id:1,name:"专业碳纤维球拍",cat:"底板",price:299,orig:399,stock:50,img:"🏓",desc:"5木2碳结构，速度快旋转强，适合进攻型打法",specs:"重量:85g±3g | 层数:5+2 | 拍柄:FL",feat:true},
-{id:2,name:"训练级纯木球拍",cat:"底板",price:129,orig:169,stock:80,img:"🏸",desc:"7层纯木，手感柔和控球好，适合初学者到中级",specs:"重量:80g±3g | 层数:7 | 拍柄:CS",feat:false},
-{id:3,name:"三星比赛用球10只装",cat:"乒乓球",price:59,orig:69,stock:200,img:"🏓",desc:"ITTF认证比赛用球，弹性均匀耐打",specs:"星级:三星 | 数量:10只 | 颜色:白",feat:true},
-{id:4,name:"一星训练球100只装",cat:"乒乓球",price:89,orig:99,stock:150,img:"⚪",desc:"高性价比训练球，弹跳稳定，适合多球训练",specs:"星级:一星 | 数量:100只",feat:false},
-{id:5,name:"防滑乒乓球鞋",cat:"球鞋",price:189,orig:239,stock:40,img:"👟",desc:"透气网面+橡胶大底，抓地力强，快速移动不滑",specs:"尺码:36-44 | 颜色:黑/白",feat:false},
-{id:6,name:"专业球拍套",cat:"配件",price:49,orig:59,stock:100,img:"🎓",desc:"加厚防护，可放2支球拍+3颗球",specs:"容量:2拍+球 | 材质:牛津布",feat:false},
-{id:7,name:"运动速干毛巾",cat:"配件",price:39,orig:49,stock:120,img:"🧣",desc:"冷感面料快速吸汗，运动必备",specs:"尺寸:80x40cm | 材质:冷感纤维",feat:true},
-{id:8,name:"乒乓球训练器套装",cat:"配件",price:128,orig:168,stock:30,img:"🎾",desc:"发球机+集球网套装，高效训练",specs:"含:发球机x1+集球网x1+球x50",feat:false},
-{id:9,name:"防滑手柄胶带3卷装",cat:"配件",price:25,orig:35,stock:200,img:"🎀",desc:"吸汗防滑，握感舒适",specs:"数量:3卷 | 颜色:随机",feat:false},
-{id:10,name:"折叠式裁判椅",cat:"器材",price:258,orig:298,stock:20,img:"🪑",desc:"轻便折叠，高度可调，裁判必备",specs:"高度:可调 | 承重:150kg",feat:false}
-];
-
-var cart = [];
-var currentCat = "all";
-
-function getStorage(key,def){
-try{var v=localStorage.getItem("pp_"+key);return v?JSON.parse(v):def}catch(e){return def}
-}
-function setStorage(key,val){
-try{localStorage.setItem("pp_"+key,JSON.stringify(val))}catch(e){}
-}
-
-function init(){
-cart = getStorage("cart",[]);
-renderCats();
-renderProducts();
-updateCartBadge();
-}
-
-function renderCats(){
-var cats = ["all"];
-products.forEach(function(p){if(cats.indexOf(p.cat)===-1)cats.push(p.cat)});
-var labels = {all:"全部",底板:"底板",乒乓球:"乒乓球",球鞋:"球鞋",配件:"配件",器材:"器材"};
-var h = "";
-cats.forEach(function(c){
-h += '<span class="'+(currentCat===c?"on":"")+'" onclick="currentCat=\''+c+'\';renderProducts()">'+labels[c]+'</span>';
-});
-document.getElementById("cats").innerHTML = h;
-}
-
-function renderProducts(){
-var list = currentCat==="all"?products:products.filter(function(p){return p.cat===currentCat});
-var q = document.getElementById("search").value.trim().toLowerCase();
-if(q) list = list.filter(function(p){return p.name.toLowerCase().indexOf(q)>-1||p.desc.toLowerCase().indexOf(q)>-1});
-
-var grid = document.getElementById("products");
-var empty = document.getElementById("empty");
-
-if(list.length===0){
-grid.innerHTML = "";
-empty.innerHTML = '<div style="padding:60px;color:var(--t2)">😕 没有找到匹配的商品</div>';
-return;
-}
-empty.innerHTML = "";
-
-var h = "";
-list.forEach(function(p){
-var tag = p.feat?'<div class="tag">推荐</div>':'';
-var low = p.stock<30?'<div class="tag" style="background:#f85149;color:#fff">仅剩'+p.stock+'件</div>':'';
-h += '<div class="card">';
-h += '<div class="img">'+p.img+tag+low+'</div>';
-h += '<div class="bd">';
-h += '<h3>'+p.name+'</h3>';
-h += '<div class="desc">'+p.desc+'</div>';
-h += '<div class="ft">';
-h += '<div><span class="price">¥'+p.price+'</span><s>¥'+p.orig+'</s></div>';
-h += '<button class="add" onclick="addToCart('+p.id+')">+ 加入</button>';
-h += '</div></div></div>';
-});
-grid.innerHTML = h;
-}
-
-function filter(){
-renderProducts();
-}
-
-function addToCart(id){
-var p = products.find(function(x){return x.id===id});
-if(!p || p.stock<=0){toast("库存不足!");return}
-var ci = cart.find(function(x){return x.id===id});
-if(ci){if(ci.qty<p.stock)ci.qty++}else{cart.push({id:id,qty:1})}
-setStorage("cart",cart);
-updateCartBadge();
-renderCartItems();
-toast(p.name+" 已加入购物车");
-}
-
-function removeFromCart(id){
-cart = cart.filter(function(x){return x.id!==id});
-setStorage("cart",cart);
-updateCartBadge();
-renderCartItems();
-}
-
-function updateCartBadge(){
-var cnt = cart.reduce(function(s,i){return s+i.qty},0);
-document.getElementById("cc").textContent = cnt;
-}
-
-function toggleCart(){
-var p = document.getElementById("cartPanel");
-p.classList.toggle("open");
-if(p.classList.contains("open")) renderCartItems();
-}
-
-function renderCartItems(){
-var div = document.getElementById("cartItems");
-if(cart.length===0){
-div.innerHTML = '<div style="text-align:center;padding:40px;color:var(--t2)">购物车为空</div>';
-document.getElementById("cartSum").innerHTML = "";
-return;
-}
-var h = "";
-var total = 0;
-cart.forEach(function(ci){
-var p = products.find(function(x){return x.id===ci.id});
-if(!p) return;
-var sub = p.price * ci.qty;
-total += sub;
-h += '<div class="cart-item"><div><b>'+p.name+'</b><br><span style="font-size:12px;color:var(--t2)">¥'+p.price+'</span></div><div class="qty"><button onclick="changeQty('+p.id+','+(ci.qty-1)+')">-</button><span>'+ci.qty+'</span><button onclick="changeQty('+p.id+','+(ci.qty+1)+')">+</button></div><span>¥'+sub+'</span><button style="background:none;border:none;color:#f85149;cursor:pointer" onclick="removeFromCart('+p.id+')">✕</button></div>';
-});
-div.innerHTML = h;
-document.getElementById("cartSum").innerHTML = '<div style="font-weight:700">合计: <span style="color:var(--gc)">¥'+total.toLocaleString()+'</span></div><button onclick="checkout()">提交订单</button>';
-}
-
-function changeQty(id,qty){
-var ci = cart.find(function(x){return x.id===id});
-if(!ci) return;
-var p = products.find(function(x){return x.id===id});
-if(qty<1) qty=1;
-if(p && qty>p.stock) qty=p.stock;
-ci.qty = qty;
-setStorage("cart",cart);
-updateCartBadge();
-renderCartItems();
-}
-
-function checkout(){
-if(cart.length===0){toast("购物车为空!");return}
-var name = prompt("请输入姓名：","");
-if(!name) return;
-var phone = prompt("请输入电话：","");
-if(!phone) return;
-var total = cart.reduce(function(s,i){var p=products.find(function(x){return x.id===i.id});return s+(p?p.price*i.qty:0)},0);
-var items = cart.map(function(i){var p=products.find(function(x){return x.id===i.id});return p?p.name+" x"+i.qty+" ¥"+p.price*i.qty:""}).join("\n");
-var no = "PP"+Date.now().toString(36).toUpperCase();
-alert("✅ 订单已提交！\n\n订单号："+no+"\n客户："+name+"\n电话："+phone+"\n金额：¥"+total.toLocaleString()+"\n\n商品：\n"+items+"\n\n我们会尽快与您联系确认！");
-cart = [];
-setStorage("cart",cart);
-updateCartBadge();
-toggleCart();
-}
-
-function toast(msg){
-var el = document.createElement("div");
-el.className = "toast";
-el.textContent = msg;
-document.body.appendChild(el);
-setTimeout(function(){el.remove()},2000);
-}
-
+// === ORDER DETAILS ===
+function showOrderDetail(id){var o=O.find(function(x){return x.id===id});if(!o)return;var h="<h2>馃搵 璁㈠崟 #"+String(o.id).slice(-6)+"</h2>";h+="<div style='display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px'>";h+="<div><b>鐘舵€?</b> "+statusBadge(o.status)+"</div><div><b>鏃ユ湡:</b> "+fd(o.date)+"</div>";h+="<div><b>瀹㈡埛:</b> "+o.customer.name+"</div><div><b>鐢佃瘽:</b> "+o.customer.phone+"</div>";h+="<div><b>鍦板潃:</b> "+o.customer.addr+"</div><div><b>鍥藉:</b> "+o.customer.country+"</div>";if(o.tracking)h+="<div><b>"+t("tracking")+":</b> "+o.tracking+"</div>";h+="</div>";h+="<table class='tbl' style='margin-top:12px'><tr><th>鍟嗗搧</th><th>鏁伴噺</th><th>鍗曚环</th><th>灏忚</th></tr>";o.items.forEach(function(i){h+="<tr><td>"+i.name+"</td><td>"+i.qty+"</td><td>"+fp(i.price)+"</td><td>"+fp(i.qty*i.price)+"</td></tr>"});h+="<tr><td colspan='3'>"+t("shipping")+" ("+(o.shipping?o.shipping.name:"")+")</td><td>"+fp(o.shipping?o.shipping.cost:0)+"</td></tr>";h+="<tr style='font-weight:700'><td colspan='3'>"+t("total")+"</td><td style='color:var(--gc);font-size:16px'>"+fp(o.total)+"</td></tr></table>";h+="<div style='margin-top:12px;display:flex;gap:8px;flex-wrap:wrap'>";if(o.status==="pending")h+="<button class='btn btn-blue' onclick='upOrderStatus("+o.id+",\"confirmed\")'>鉁?纭璁㈠崟</button>";if(o.status==="confirmed")h+="<button class='btn btn-blue' onclick='upOrderStatus("+o.id+",\"shipped\")'>馃摝 宸插彂璐?/button>";if(o.status==="shipped")h+="<button class='btn btn-blue' onclick='upOrderStatus("+o.id+",\"delivered\")'>馃摤 宸茬鏀?/button>";if(o.status!=="cancelled"&&o.status!=="delivered")h+="<button class='btn btn-red' onclick='upOrderStatus("+o.id+",\"cancelled\")'>鉂?鍙栨秷</button>";h+="<button class='btn btn-out' onclick='printOrder("+o.id+")'>"+t("print")+"</button>";h+="<button class='btn btn-out' onclick='addTracking("+o.id+")'>馃搷 杈撳叆杩愬崟鍙?/button></div>";h+="<div class='m-acts'><button class='btn btn-out' onclick='closeModal()'>"+t("close")+"</button></div>";openModal(h)}
+function statusBadge(s){var m={pending:["badge-pd","寰呭鐞?],confirmed:["badge-ok","宸茬‘璁?],shipped:["badge-sp","杩愯緭涓?],delivered:["badge-ok","宸茬鏀?],cancelled:["badge-xx","宸插彇娑?]};var b=m[s]||["badge-pd",s];return "<span class='badge "+b[0]+"'>"+b[1]+"</span>"}
+function upOrderStatus(id,s){var o=O.find(function(x){return x.id===id});if(!o)return;o.status=s;save("o");closeModal();nav("orders");toast("鐘舵€佸凡鏇存柊")}
+function addTracking(id){var o=O.find(function(x){return x.id===id});if(!o)return;var tn=prompt(t("tracking")+":",o.tracking||"");if(tn!==null){o.tracking=tn.trim();save("o");closeModal();showOrderDetail(id)}}
+function printOrder(id){var o=O.find(function(x){return x.id===id});if(!o)return;var w=window.open("","","width=700,height=600");var h='<html><head><meta charset="UTF-8"><title>璁㈠崟 #'+String(o.id).slice(-6)+'</title><style>body{font-family:"Microsoft YaHei",sans-serif;padding:30px;font-size:13px;line-height:1.8}h2{border-bottom:2px solid #d4a853;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin:12px 0}td,th{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f5f5f5}.total{font-size:18px;font-weight:700;color:#d4a853}@media print{button{display:none}}</style></head><body>';h+='<h2>馃彄 '+SET.name+' - 璁㈠崟 #'+String(o.id).slice(-6)+'</h2>';h+='<p><b>鏃ユ湡:</b> '+fd(o.date)+' | <b>鐘舵€?</b> '+o.status+'</p>';h+='<p><b>瀹㈡埛:</b> '+o.customer.name+' | <b>鐢佃瘽:</b> '+o.customer.phone+'</p>';h+='<p><b>鍦板潃:</b> '+o.customer.addr+' ('+o.customer.country+')</p>';h+='<table><tr><th>鍟嗗搧</th><th>鏁伴噺</th><th>鍗曚环</th><th>灏忚</th></tr>';o.items.forEach(function(i){h+='<tr><td>'+i.name+'</td><td>'+i.qty+'</td><td>'+fp(i.price)+'</td><td>'+fp(i.qty*i.price)+'</td></tr>'});h+='<tr><td colspan="3">杩愯垂 ('+(o.shipping?o.shipping.name:"")+')</td><td>'+fp(o.shipping?o.shipping.cost:0)+'</td></tr>';h+='<tr><td colspan="3" class="total">鍚堣</td><td class="total">'+fp(o.total)+'</td></tr></table>';if(o.tracking)h+='<p><b>杩愬崟鍙?</b> '+o.tracking+'</p>';h+='<p style="font-size:11px;color:#999">鎰熻阿鎮ㄧ殑璐拱锛佹棆杞箳涔?Pro</p><button onclick="window.print()">鎵撳嵃</button></body></html>';w.document.write(h);w.document.close()}
+function rOrders(){var h="<div class='sec'><h2>馃搵 "+t("ordersList")+"</h2>";if(O.length===0){h+="<div style='text-align:center;padding:40px;color:var(--t3)'>"+t("noOrders")+"</div>"}else{h+="<div class='tbl-container'><table class='tbl'><tr><th>璁㈠崟鍙?/th><th>瀹㈡埛</th><th>閲戦</th><th>鐘舵€?/th><th>鏃ユ湡</th><th>鐗╂祦</th><th></th></tr>";O.forEach(function(o){h+="<tr><td>#"+String(o.id).slice(-6)+"</td><td>"+o.customer.name+"</td><td style='color:var(--gc)'>"+fp(o.total)+"</td><td>"+statusBadge(o.status)+"</td><td>"+fd(o.date)+"</td><td>"+(o.shipping?o.shipping.name:"-")+"</td><td><button class='btn btn-sm btn-out' onclick='showOrderDetail("+o.id+")'>"+t("detail")+"</button></td></tr>"});h+="</table></div>"}return h+="</div>"}
+function rLogistics(){var h="<div class='sec'><h2>馃殮 "+t("logistics")+"</h2>";h+="<h4 style='color:var(--gc);margin-bottom:8px'>馃嚚馃嚦 "+t("domestic")+"</h4>";h+="<div class='tbl-container'><table class='tbl'><tr><th>蹇€?/th><th>杩愯垂</th><th>鏃舵晥</th><th>杩借釜</th></tr>";SHIP.domestic.forEach(function(s){h+="<tr><td><b>"+s.name+"</b></td><td>楼"+s.price+"</td><td>"+s.days+"</td><td>"+(s.track?"鉁?:"鉂?)+"</td></tr>"});h+="</table></div>";h+="<h4 style='color:var(--gc);margin:16px 0 8px'>馃實 "+t("intl")+"</h4>";h+="<div class='tbl-container'><table class='tbl'><tr><th>Courier</th><th>Cost</th><th>ETD</th><th>Tracking</th></tr>";SHIP.international.forEach(function(s){h+="<tr><td><b>"+s.name+"</b></td><td>$"+s.price+"</td><td>"+s.days+"</td><td>"+(s.track?"鉁?:"鉂?)+"</td></tr>"});h+="</table></div>";h+="<div style='margin-top:16px;padding:16px;background:var(--card);border:1px solid var(--bor);border-radius:var(--ra)'><h4 style='margin-bottom:8px'>馃攳 杩愬崟杩借釜</h4>";h+="<div class='f-row'><label>杩愬崟鍙?/label><input id='trkInput' placeholder='杈撳叆杩愬崟鍙?..'></div>";h+="<div class='f-row'><label>蹇€?/label><select id='trkCourier'><option value='sf'>椤轰赴</option><option value='yt'>鍦嗛€?/option><option value='zt'>涓€?/option><option value='yd'>闊佃揪</option><option value='ems'>EMS</option><option value='jd'>浜笢</option><option value='db'>寰烽偊</option><option value='dhl'>DHL</option><option value='fedex'>FedEx</option><option value='ups'>UPS</option></select></div>";h+="<button class='btn btn-gold' style='margin-top:8px' onclick='lookupTracking()'>馃攳 鏌ヨ</button>";h+="<div id='trkResult' style='margin-top:12px;font-size:13px;color:var(--t2)'></div></div>";return h+="</div>"}
+function lookupTracking(){var num=document.getElementById("trkInput").value.trim();if(!num){toast("璇疯緭鍏ヨ繍鍗曞彿","err");return}var c=document.getElementById("trkCourier").value;var n={sf:"椤轰赴閫熻繍",yt:"鍦嗛€氬揩閫?,zt:"涓€氬揩閫?,yd:"闊佃揪蹇€?,ems:"EMS閭斂",jd:"浜笢鐗╂祦",db:"寰烽偊蹇€?,dhl:"DHL",fedex:"FedEx",ups:"UPS"};document.getElementById("trkResult").innerHTML="<div style='background:rgba(212,168,83,.08);padding:12px;border-radius:8px;border:1px solid rgba(212,168,83,.2)'><b>"+n[c]+"</b> - "+num+"<br><br>馃搷 蹇€掑凡鎻芥敹 鈫?馃摝 杩愯緭涓?鈫?馃摤 娲鹃€佷腑<br><small style='color:var(--t3)'>(婕旂ず妯″紡锛屽疄闄呰閫氳繃蹇€掑畼缃戞煡璇?</small></div>"}
+function rCustomers(){var h="<div class='sec'><h2>馃懃 "+t("customers")+"</h2>";if(CS.length===0){h+="<div style='text-align:center;padding:40px;color:var(--t3)'>"+t("noCustomers")+"</div>"}else{h+="<div class='tbl-container'><table class='tbl'><tr><th>ID</th><th>"+t("name")+"</th><th>"+t("phone")+"</th><th>"+t("email")+"</th><th>"+t("country")+"</th><th>璁㈠崟鏁?/th><th>鎬绘秷璐?/th><th></th></tr>";CS.forEach(function(c){h+="<tr><td>"+c.id+"</td><td>"+c.name+"</td><td>"+c.phone+"</td><td>"+(c.email||"-")+"</td><td>"+c.country+"</td><td>"+c.orders+"</td><td style='color:var(--gc)'>"+fp(c.total)+"</td><td><button class='btn btn-sm btn-out' onclick='viewCustomer("+c.id+")'>"+t("detail")+"</button></td></tr>"});h+="</table></div>"}return h+="</div>"}
+function viewCustomer(id){var c=CS.find(function(x){return x.id===id});if(!c)return;var h="<h2>馃懁 "+c.name+"</h2>";h+="<div style='font-size:13px;line-height:2'><b>"+t("phone")+":</b> "+c.phone+"<br><b>"+t("email")+":</b> "+(c.email||"-")+"<br><b>"+t("country")+":</b> "+c.country+"<br><b>"+t("addr")+":</b> "+c.addr+"<br><b>璁㈠崟鏁?</b> "+c.orders+"<br><b>鎬绘秷璐?</b> <span style='color:var(--gc);font-size:16px'>"+fp(c.total)+"</span></div>";h+="<div class='m-acts'><button class='btn btn-out' onclick='closeModal()'>"+t("close")+"</button></div>";openModal(h)}
+function rAdmin(){var totalRevenue=O.filter(function(o){return o.status!=="cancelled"}).reduce(function(s,o){return s+o.total},0);var pendingOrders=O.filter(function(o){return o.status==="pending"}).length;var activeProducts=P.filter(function(p){return p.s>0}).length;var totalOrders=O.length;var h="<div class='sec'><h2>馃搳 "+t("dashboard")+"</h2>";h+="<div class='stats'><div class='stat'><div class='sv' style='color:var(--gc)'>"+cp(totalRevenue)+"</div><div class='sl'>"+t("revenue")+"</div></div>";h+="<div class='stat'><div class='sv' style='color:var(--ac)'>"+totalOrders+"</div><div class='sl'>"+t("orders")+"</div></div>";h+="<div class='stat'><div class='sv' style='color:var(--gr)'>"+activeProducts+"</div><div class='sl'>"+t("active")+"</div></div>";h+="<div class='stat'><div class='sv' style='color:var(--rd)'>"+pendingOrders+"</div><div class='sl'>"+t("pending")+"</div></div></div>";h+="<h4 style='color:var(--gc);margin:16px 0 8px'>馃搵 "+t("recentOrders")+"</h4>";var recent=O.slice(0,5);if(recent.length===0)h+="<div style='padding:20px;text-align:center;color:var(--t3)'>"+t("noOrders")+"</div>";else{h+="<div class='tbl-container'><table class='tbl'><tr><th>璁㈠崟鍙?/th><th>瀹㈡埛</th><th>閲戦</th><th>鐘舵€?/th><th>鏃ユ湡</th></tr>";recent.forEach(function(o){h+="<tr><td>#"+String(o.id).slice(-6)+"</td><td>"+o.customer.name+"</td><td style='color:var(--gc)'>"+fp(o.total)+"</td><td>"+statusBadge(o.status)+"</td><td>"+fd(o.date)+"</td></tr>"});h+="</table></div>"}h+="<h4 style='color:var(--gc);margin:16px 0 8px'>鈿欙笍 "+t("settings")+"</h4>";h+="<div class='f-row'><label>搴楀悕</label><input id='admName' value='"+SET.name+"'></div>";h+="<div class='f-row'><label>"+t("phone")+"</label><input id='admPhone' value='"+(SET.phone||"")+"'></div>";h+="<div class='f-row'><label>寰俊</label><input id='admWx' value='"+(SET.wechat||"")+"'></div>";h+="<div class='f-row'><label>"+t("email")+"</label><input id='admEmail' value='"+(SET.email||"")+"'></div>";h+="<div class='f-row'><label>"+t("addr")+"</label><input id='admAddr' value='"+(SET.addr||"")+"'></div>";h+="<div class='m-acts' style='margin-top:8px'><button class='btn btn-gold' onclick='saveSettings()'>馃捑 "+t("save")+"</button></div>";h+="<div style='display:flex;gap:10px;margin-top:12px;flex-wrap:wrap'>";h+="<button class='btn btn-out' onclick='exportData()'>馃摛 "+t("export")+"</button>";h+="<button class='btn btn-out' onclick='importData()'>馃摜 "+t("import")+"</button>";h+="<button class='btn btn-red' onclick='resetData()'>馃攧 閲嶇疆鏁版嵁</button></div>";return h+="</div>"}
+function saveSettings(){SET.name=document.getElementById("admName").value.trim()||SET.name;SET.phone=document.getElementById("admPhone").value.trim();SET.wechat=document.getElementById("admWx").value.trim();SET.email=document.getElementById("admEmail").value.trim();SET.addr=document.getElementById("admAddr").value.trim();save("set");document.getElementById("storeTitle").textContent="馃彄 "+SET.name;toast("璁剧疆宸蹭繚瀛?)}
+function exportData(){var d={products:P,orders:O,customers:CS,settings:SET,exportDate:new Date().toISOString()};var b=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=SET.name.replace(/\s/g,"_")+"_backup_"+new Date().toISOString().slice(0,10)+".json";a.click();toast("瀵煎嚭鎴愬姛")}
+function importData(){var input=document.createElement("input");input.type="file";input.accept=".json";input.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var d=JSON.parse(ev.target.result);if(d.products)P=d.products;if(d.orders)O=d.orders;if(d.customers)CS=d.customers;if(d.settings){SET=d.settings;document.getElementById("storeTitle").textContent="馃彄 "+SET.name}save("p");save("o");save("cs");save("set");nav("admin");toast("瀵煎叆鎴愬姛")}catch(err){toast("鏂囦欢鏍煎紡閿欒","err")}};r.readAsText(f)};input.click()}
+function resetData(){if(!confirm("纭畾瑕侀噸缃墍鏈夋暟鎹紵姝ゆ搷浣滀笉鍙挙閿€锛?))return;localStorage.removeItem("pp_p");localStorage.removeItem("pp_o");localStorage.removeItem("pp_c");localStorage.removeItem("pp_cs");localStorage.removeItem("pp_set");location.reload()}
+// === IMAGE UPLOAD ===
+var imgTarget="",tempImgData="";
+function pickImg(target){imgTarget=target;tempImgData="";document.getElementById("imgModal").classList.add("show");document.getElementById("imgPrev").innerHTML='<span class="ph">馃摲 鐐瑰嚮涓婁紶</span>';document.getElementById("imgUrl").value=""}
+function handleImg(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){tempImgData=ev.target.result;document.getElementById("imgPrev").innerHTML='<img src="'+tempImgData+'" alt="preview">'};reader.readAsDataURL(file)}
+function confirmImg(){if(!tempImgData){var url=document.getElementById("imgUrl").value.trim();if(url)tempImgData=url}if(!tempImgData){toast("璇峰厛閫夋嫨鍥剧墖鎴栬緭鍏RL","err");return}if(imgTarget==="product"){document.getElementById("pfIu").value=tempImgData;document.getElementById("pfImgPrev").innerHTML='<img src="'+tempImgData+'">'}closeImgModal()}
+function closeImgModal(){document.getElementById("imgModal").classList.remove("show");imgTarget="";tempImgData=""}
+// === MODAL ===
+function openModal(h){document.getElementById("modalBody").innerHTML=h;document.getElementById("modal").classList.add("show")}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+// === TOAST ===
+function toast(msg,type){var el=document.createElement("div");el.className="toast toast-"+(type==="err"?"err":"ok");el.textContent=msg;el.style.position="fixed";el.style.top="16px";el.style.right="16px";el.style.padding="12px 20px";el.style.borderRadius="8px";el.style.fontSize="13px";el.style.zIndex="999";el.style.boxShadow="0 4px 12px rgba(0,0,0,.4)";el.style.color="#fff";el.style.background=type==="err"?"var(--rd)":"var(--gr)";el.style.animation="fadeIn .3s";document.body.appendChild(el);setTimeout(function(){el.remove()},3000)}
+// === INIT ===
 init();
 </script>
 </body>
