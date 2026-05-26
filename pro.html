@@ -167,42 +167,6 @@ function closeModal(){document.getElementById("modal").classList.remove("show")}
 function toast(msg,type){var el=document.createElement("div");el.className="toast toast-"+(type==="err"?"err":"ok");el.textContent=msg;el.style.position="fixed";el.style.top="16px";el.style.right="16px";el.style.padding="12px 20px";el.style.borderRadius="8px";el.style.fontSize="13px";el.style.zIndex="999";el.style.boxShadow="0 4px 12px rgba(0,0,0,.4)";el.style.color="#fff";el.style.background=type==="err"?"var(--rd)":"var(--gr)";el.style.animation="fadeIn .3s";document.body.appendChild(el);setTimeout(function(){el.remove()},3000)}
 // === INIT ===
 init();
-
-// === PAYMENT + COUPON ===
-var PAYMENTS=[{id:"alipay",name:"支付宝",icon:"💙",domestic:!0},{id:"wechat",name:"微信支付",icon:"💚",domestic:!0},{id:"card",name:"银行卡",icon:"💳",domestic:!0},{id:"cod",name:"货到付款",icon:"📦",domestic:!0},{id:"paypal",name:"PayPal",icon:"🅿",domestic:!1},{id:"stripe",name:"Stripe",icon:"💠",domestic:!1},{id:"wise",name:"Wise",icon:"🌐",domestic:!1}];
-var COUPONS=gK("cp",[{code:"NEW10",discount:10,minOrder:99,expiry:"2026-12-31",used:[]},{code:"VIP50",discount:50,minOrder:500,expiry:"2026-12-31",used:[]},{code:"FREESHIP",discount:15,minOrder:0,expiry:"2026-12-31",used:[]}]);
-var selPayment="alipay",selCoupon="";
-function getPayments(){var c=document.getElementById("chkCountry").value;return PAYMENTS.filter(function(p){return c==="CN"?p.domestic:!0})}
-function applyCoupon(code){var c=COUPONS.find(function(x){return x.code===code.toUpperCase()});if(!c)return 0;if(c.expiry&&new Date(c.expiry)<new Date())return 0;var itemTotal=C.reduce(function(s,ci){var p=P.find(function(x){return x.id===ci.id});return p?s+ci.q*p.p:s},0);if(itemTotal<c.minOrder)return 0;return c.discount}
-// === ENHANCED CHECKOUT ===
-var _origCheckout=checkout;
-checkout=function(){
-if(C.length===0){toast(t("cartEmpty"),"err");return}
-var h="<h2>📋 "+t("checkout")+"</h2>";
-h+="<h4 style='margin-bottom:8px;color:var(--gc)'>📝 订单信息</h4>";
-h+="<div class='f-row'><label>"+t("name")+"*</label><input id='chkName' value=''></div>";
-h+="<div class='f-row'><label>"+t("phone")+"*</label><input id='chkPhone' value=''></div>";
-h+="<div class='f-row'><label>"+t("email")+"</label><input id='chkEmail' value=''></div>";
-h+="<div class='f-row'><label>"+t("country")+"</label><select id='chkCountry' onchange='upShipOpts();upPayOpts()'><option value='CN'>中国</option><option value='US'>United States</option><option value='JP'>日本</option><option value='KR'>韩国</option><option value='DE'>Germany</option><option value='GB'>United Kingdom</option><option value='FR'>France</option><option value='SG'>Singapore</option><option value='TH'>Thailand</option></select></div>";
-h+="<div class='f-row'><label>"+t("addr")+"*</label><input id='chkAddr' value=''></div>";
-h+="<div class='f-row'><label>"+t("note")+"</label><input id='chkNote' value=''></div>";
-h+="<h4 style='margin-bottom:8px;color:var(--gc);margin-top:12px'>🚚 "+t("shipping")+"</h4>";
-h+="<div id='shipOpts' class='ship-grid'></div><div id='shipCostDisplay' style='text-align:right;margin-top:8px;font-size:14px;color:var(--gc)'></div>";
-h+="<h4 style='margin-bottom:8px;color:var(--gc);margin-top:12px'>💳 支付方式</h4>";
-h+="<div id='payOpts' class='ship-grid'></div>";
-h+="<h4 style='margin-bottom:8px;color:var(--gc);margin-top:12px'>🎫 优惠券</h4>";
-h+="<div class='f-row'><label>优惠码</label><input id='chkCoupon' placeholder='NEW10/VIP50/FREESHIP'> <button class='btn btn-gold btn-sm' onclick='applyCouponCode()'>使用</button></div><div id='couponMsg' style='font-size:12px;margin-bottom:6px'></div>";
-h+="<h4 style='margin-bottom:8px;color:var(--gc);margin-top:12px'>🛒 订单明细</h4>";
-var itemTotal=0;C.forEach(function(ci){var p=P.find(function(x){return x.id===ci.id});if(!p)return;var sub=ci.q*p.p;itemTotal+=sub;h+="<div style='display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bor);font-size:13px'><span>"+p.n+" x"+ci.q+"</span><span>"+fp(sub)+"</span></div>"});
-h+="<div style='display:flex;justify-content:space-between;padding:8px 0;font-size:18px;font-weight:700'><span>"+t("total")+"</span><span id='chkTotal' style='color:var(--gc)'>"+fp(itemTotal)+"</span></div>";
-h+="<div class='m-acts'><button class='btn btn-out' onclick='closeModal()'>"+t("cancel")+"</button><button class='btn btn-gold' onclick='placeOrderEnhanced()'>✅ "+t("checkout")+"</button></div>";
-openModal(h);setTimeout(function(){upShipOpts();upPayOpts()},100)
-}
-function upPayOpts(){var pays=getPayments();var h="";if(!selPayment||!pays.find(function(p){return p.id===selPayment}))selPayment=pays[0]?pays[0].id:"";pays.forEach(function(p){var cls=p.id===selPayment?" class='sel'":"";h+="<div class='ship-card"+cls+"' onclick='selPaymentOpt(\""+p.id+"\",this)'><div class='sc-name'>"+p.icon+" "+p.name+"</div><div class='sc-info'>"+(p.domestic?"国内可用":"国际")+"</div></div>"});document.getElementById("payOpts").innerHTML=h}
-function selPaymentOpt(id,el){selPayment=id;document.querySelectorAll("#payOpts .ship-card").forEach(function(c){c.classList.remove("sel")});el.classList.add("sel")}
-function applyCouponCode(){var code=document.getElementById("chkCoupon").value.trim().toUpperCase();var d=applyCoupon(code);if(d>0){selCoupon=code;document.getElementById("couponMsg").innerHTML="<span style='color:var(--gr)'>✅ 优惠券: -"+fp(d)+"</span>";var itemTotal=C.reduce(function(s,ci){var p=P.find(function(x){return x.id===ci.id});return p?s+ci.q*p.p:s},0);document.getElementById("chkTotal").textContent=fp(itemTotal-d+shipCost)}else{selCoupon="";document.getElementById("couponMsg").innerHTML="<span style='color:var(--rd)'>❌ 无效/不满足条件</span>"}}
-function placeOrderEnhanced(){var name=document.getElementById("chkName").value.trim();var phone=document.getElementById("chkPhone").value.trim();var addr=document.getElementById("chkAddr").value.trim();if(!name||!phone||!addr){toast(t("fillInfo"),"err");return}var email=document.getElementById("chkEmail").value.trim();var country=document.getElementById("chkCountry").value;var note=document.getElementById("chkNote").value.trim();var items=C.map(function(ci){var p=P.find(function(x){return x.id===ci.id});return{id:ci.id,name:p?p.n:"",qty:ci.q,price:p?p.p:0}});var itemTotal=items.reduce(function(s,i){return s+i.qty*i.price},0);var disc=applyCoupon(selCoupon);var allShips=SHIP.domestic.concat(SHIP.international);var found=allShips.find(function(s){return s.id===selShip});var shipInfo=found?{id:found.id,name:found.name,cost:shipCost,days:found.days}:null;var pi=PAYMENTS.find(function(p){return p.id===selPayment});var order={id:Date.now(),items:items,shipping:shipInfo,payment:pi?pi.name:"",coupon:selCoupon||"",discount:disc,customer:{name:name,phone:phone,email:email,country:country,addr:addr,note:note},total:itemTotal-disc+shipCost,status:"pending",date:new Date().toISOString(),tracking:""};O.unshift(order);C.forEach(function(ci){var p=P.find(function(x){return x.id===ci.id});if(p)p.s=Math.max(0,p.s-ci.q)});var exist=CS.find(function(x){return x.phone===phone});if(!exist){CS.push({id:CS.length+1,name:name,phone:phone,email:email,country:country,addr:addr,orders:1,total:order.total,date:order.date});save("cs")}else{exist.orders++;exist.total+=order.total;save("cs")}C=[];save("c");save("o");save("p");updateCC();closeModal();updateCartPanel();nav("orders");toast(t("orderOK"),"ok");setTimeout(function(){showOrderDetail(order.id)},500)}
-// === OVERRIDE save for coupons ===
-var _origSave=save;save=function(k){if(k==="cp")sK("cp",COUPONS);else _origSave(k)}</script>
+</script>
 </body>
 </html>
